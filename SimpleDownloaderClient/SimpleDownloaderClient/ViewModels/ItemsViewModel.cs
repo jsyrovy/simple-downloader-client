@@ -13,8 +13,10 @@
     public class ItemsViewModel : INotifyPropertyChanged
     {
         private readonly DispatcherTimer reloadTimer;
-        private readonly int reload;
 
+        private string server;
+        private string reload;
+        private int reloadSeconds;
         private string url;
         private string connectionStatus;
         private string lastActionStatus;
@@ -28,17 +30,14 @@
 
             this.Items = new ObservableCollection<Item>();
             this.Server = ConfigHelper.GetValue(ConfigHelper.Server);
+            this.Reload = ConfigHelper.GetValue(ConfigHelper.Reload);
             this.DownloadCommand = new DownloadCommand(this);
             this.DeleteCommand = new DeleteCommand(this);
+            this.SaveConfigCommand = new SaveConfigCommand(this);
 
-            if (!int.TryParse(ConfigHelper.GetValue(ConfigHelper.Reload), out this.reload))
-                this.reload = 15;
-
-            this.reloadTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(this.reload),
-            };
+            this.reloadTimer = new DispatcherTimer();
             this.reloadTimer.Tick += (s, e) => this.LoadItemsAsync();
+            this.UpdateTimerInterval();
 
             this.ConnectionStatus = $"Connecting to '{this.Server}'.";
             this.LoadItemsAsync();
@@ -53,7 +52,39 @@
 
         public DeleteCommand DeleteCommand { get; set; }
 
-        public string Server { get; private set; }
+        public SaveConfigCommand SaveConfigCommand { get; set; }
+
+        public string Server
+        {
+            get
+            {
+                return this.server;
+            }
+
+            set
+            {
+                this.server = value;
+                this.OnPropertyChanged(nameof(this.Server));
+            }
+        }
+
+        public string Reload
+        {
+            get
+            {
+                return this.reload;
+            }
+
+            set
+            {
+                this.reload = value;
+                this.OnPropertyChanged(nameof(this.Reload));
+                if (int.TryParse(value, out int seconds))
+                    this.reloadSeconds = seconds;
+                else
+                    this.reloadSeconds = 15;
+            }
+        }
 
         public string Url
         {
@@ -95,6 +126,11 @@
                 this.lastActionStatus = value;
                 this.OnPropertyChanged(nameof(this.LastActionStatus));
             }
+        }
+
+        public void UpdateTimerInterval()
+        {
+            this.reloadTimer.Interval = TimeSpan.FromSeconds(this.reloadSeconds);
         }
 
         public async void LoadItemsAsync()

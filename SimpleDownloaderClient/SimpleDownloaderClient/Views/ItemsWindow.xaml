@@ -13,24 +13,54 @@
 
     <Window.Resources>
         <vm:ItemsViewModel x:Key="vm" />
+
+        <SolidColorBrush x:Key="darkColor" Color="#264653" />
+        <SolidColorBrush x:Key="mediumColor" Color="#2a9d8f" />
+        <SolidColorBrush x:Key="lightColor" Color="#ffffff" />
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="5,0" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Foreground" Value="{StaticResource lightColor}" />
+            <Setter Property="Background" Value="{StaticResource mediumColor}" />
+        </Style>
+
+        <Style TargetType="ListView">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+
+        <Style TargetType="StatusBar">
+            <Setter Property="Background" Value="{StaticResource darkColor}" />
+
+            <Style.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5,0" />
+                    <Setter Property="Foreground" Value="{StaticResource lightColor}" />
+                </Style>
+            </Style.Resources>
+        </Style>
     </Window.Resources>
 
     <DockPanel DataContext="{StaticResource vm}">
-        <StatusBar Background="#264653" DockPanel.Dock="Bottom">
+        <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
-                <TextBlock
-                    Margin="5,0"
-                    VerticalAlignment="Center"
-                    Foreground="White"
-                    Text="{Binding ConnectionStatus}" />
+                <TextBlock Text="{Binding ConnectionStatus}" />
             </StatusBarItem>
             <Separator />
             <StatusBarItem>
-                <TextBlock
-                    Margin="5,0"
-                    VerticalAlignment="Center"
-                    Foreground="White"
-                    Text="{Binding LastActionStatus}" />
+                <TextBlock Text="{Binding LastActionStatus}" />
             </StatusBarItem>
         </StatusBar>
 
@@ -48,24 +78,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="0"
-                    Margin="5"
-                    VerticalAlignment="Center"
-                    Text="URL:" />
+                <TextBlock Grid.Column="0" Text="URL:" />
 
-                <TextBox
-                    Grid.Column="1"
-                    Height="25"
-                    Margin="5"
-                    VerticalContentAlignment="Center"
-                    Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Column="1" Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Button
                     Grid.Column="2"
-                    Height="25"
-                    Margin="5"
-                    Padding="5,0"
                     Command="{Binding DownloadCommand}"
                     CommandParameter="{Binding Url}"
                     Content="Download" />
@@ -75,7 +93,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn
-                            Width="480"
+                            Width="460"
                             DisplayMemberBinding="{Binding Name}"
                             Header="Name" />
                         <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Date" />
@@ -104,38 +122,16 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock
-                    Grid.Column="0"
-                    Margin="5"
-                    VerticalAlignment="Center"
-                    Text="Server:" />
+                <TextBlock Grid.Column="0" Text="Server:" />
 
-                <TextBox
-                    Grid.Column="1"
-                    Height="25"
-                    Margin="5"
-                    VerticalContentAlignment="Center"
-                    Text="{Binding Server, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Column="1" Text="{Binding Server, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+                <TextBlock Grid.Column="2" Text="Reload:" />
 
-                <TextBlock
-                    Grid.Column="2"
-                    Margin="5"
-                    VerticalAlignment="Center"
-                    Text="Reload:" />
-
-                <TextBox
-                    Grid.Column="3"
-                    Height="25"
-                    Margin="5"
-                    VerticalContentAlignment="Center"
-                    Text="{Binding Reload, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Column="3" Text="{Binding Reload, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Button
                     Grid.Column="4"
-                    Height="25"
-                    Margin="5"
-                    Padding="5,0"
                     Command="{Binding SaveConfigCommand}"
                     Content="Save" />
             </Grid>

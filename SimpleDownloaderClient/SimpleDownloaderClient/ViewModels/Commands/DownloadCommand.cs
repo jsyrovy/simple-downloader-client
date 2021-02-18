@@ -3,30 +3,21 @@
     using System;
     using System.Linq;
     using System.Net.Http;
-    using System.Windows.Input;
     using SimpleDownloaderClient.ViewModels.Helpers;
 
-    public class DownloadCommand : ICommand
+    public class DownloadCommand : BaseCommand
     {
-        private readonly ItemsViewModel viewModel;
-
         public DownloadCommand(ItemsViewModel viewModel)
+            : base(viewModel)
         {
-            this.viewModel = viewModel;
         }
 
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return !string.IsNullOrWhiteSpace((string)parameter);
         }
 
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             this.DownloadItemAsync((string)parameter);
         }
@@ -36,7 +27,7 @@
             if (!Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
             {
                 var msg = $"'{url}' isn't a valid URL.";
-                this.viewModel.ShowError(msg, lastActionStatus: msg);
+                this.ViewModel.ShowError(msg, lastActionStatus: msg);
                 return;
             }
 
@@ -45,24 +36,24 @@
 
             try
             {
-                success = await SimpleDownloaderHelper.DownloadItemAsync(this.viewModel.Server, uri.AbsoluteUri);
+                success = await SimpleDownloaderHelper.DownloadItemAsync(this.ViewModel.Server, uri.AbsoluteUri);
             }
             catch (HttpRequestException e)
             {
-                this.viewModel.ShowError(e.Message, lastActionStatus: $"Cannot download '{name}'.");
+                this.ViewModel.ShowError(e.Message, lastActionStatus: $"Cannot download '{name}'.");
                 return;
             }
 
             if (!success)
             {
                 var msg = $"Cannot download '{name}'.";
-                this.viewModel.ShowError(msg, lastActionStatus: msg);
+                this.ViewModel.ShowError(msg, lastActionStatus: msg);
                 return;
             }
 
-            this.viewModel.Url = string.Empty;
-            this.viewModel.LoadItemsAsync();
-            this.viewModel.LastActionStatus = $"Download of '{name}' was started.";
+            this.ViewModel.Url = string.Empty;
+            this.ViewModel.LoadItemsAsync();
+            this.ViewModel.LastActionStatus = $"Download of '{name}' was started.";
         }
     }
 }

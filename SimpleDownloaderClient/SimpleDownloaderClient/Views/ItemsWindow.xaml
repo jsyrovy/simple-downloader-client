@@ -16,11 +16,12 @@
     </Window.Resources>
 
     <DockPanel DataContext="{StaticResource vm}">
-        <StatusBar DockPanel.Dock="Bottom">
+        <StatusBar Background="#264653" DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock
                     Margin="5,0"
                     VerticalAlignment="Center"
+                    Foreground="White"
                     Text="{Binding ConnectionStatus}" />
             </StatusBarItem>
             <Separator />
@@ -28,6 +29,7 @@
                 <TextBlock
                     Margin="5,0"
                     VerticalAlignment="Center"
+                    Foreground="White"
                     Text="{Binding LastActionStatus}" />
             </StatusBarItem>
         </StatusBar>
@@ -48,19 +50,21 @@
 
                 <TextBlock
                     Grid.Column="0"
-                    Padding="5,0"
+                    Margin="5"
                     VerticalAlignment="Center"
                     Text="URL:" />
 
                 <TextBox
                     Grid.Column="1"
                     Height="25"
+                    Margin="5"
                     VerticalContentAlignment="Center"
                     Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Button
                     Grid.Column="2"
                     Height="25"
+                    Margin="5"
                     Padding="5,0"
                     Command="{Binding DownloadCommand}"
                     CommandParameter="{Binding Url}"
@@ -102,32 +106,35 @@
 
                 <TextBlock
                     Grid.Column="0"
-                    Padding="5,0"
+                    Margin="5"
                     VerticalAlignment="Center"
                     Text="Server:" />
 
                 <TextBox
                     Grid.Column="1"
                     Height="25"
+                    Margin="5"
                     VerticalContentAlignment="Center"
                     Text="{Binding Server, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 
                 <TextBlock
                     Grid.Column="2"
-                    Padding="5,0"
+                    Margin="5"
                     VerticalAlignment="Center"
                     Text="Reload:" />
 
                 <TextBox
                     Grid.Column="3"
                     Height="25"
+                    Margin="5"
                     VerticalContentAlignment="Center"
                     Text="{Binding Reload, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Button
                     Grid.Column="4"
                     Height="25"
+                    Margin="5"
                     Padding="5,0"
                     Command="{Binding SaveConfigCommand}"
                     Content="Save" />

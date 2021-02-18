@@ -29,8 +29,10 @@
             }
 
             this.Items = new ObservableCollection<Item>();
+
             this.Server = ConfigHelper.GetValue(ConfigHelper.Server);
             this.Reload = ConfigHelper.GetValue(ConfigHelper.Reload);
+
             this.DownloadCommand = new DownloadCommand(this);
             this.DeleteCommand = new DeleteCommand(this);
             this.SaveConfigCommand = new SaveConfigCommand(this);

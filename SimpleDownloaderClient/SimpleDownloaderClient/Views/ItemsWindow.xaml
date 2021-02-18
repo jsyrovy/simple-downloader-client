@@ -33,42 +33,41 @@
         </StatusBar>
 
         <Grid FocusManager.FocusedElement="{Binding ElementName=UrlTextBox}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="8*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <TextBlock
-                Margin="5,0"
-                VerticalAlignment="Center"
-                Text="URL:" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <TextBox
-                x:Name="UrlTextBox"
-                Grid.Row="0"
-                Grid.Column="1"
-                Height="25"
-                VerticalContentAlignment="Center"
-                Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock
+                    Grid.Column="0"
+                    Padding="5,0"
+                    VerticalAlignment="Center"
+                    Text="URL:" />
 
-            <Button
-                Grid.Row="0"
-                Grid.Column="2"
-                Height="25"
-                Command="{Binding DownloadCommand}"
-                CommandParameter="{Binding Url}"
-                Content="Download" />
+                <TextBox
+                    x:Name="UrlTextBox"
+                    Grid.Column="1"
+                    Height="25"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-            <ListView
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                ItemsSource="{Binding Items}">
+                <Button
+                    Grid.Column="2"
+                    Height="25"
+                    Padding="5,0"
+                    Command="{Binding DownloadCommand}"
+                    CommandParameter="{Binding Url}"
+                    Content="Download" />
+            </Grid>
+
+            <ListView Grid.Row="1" ItemsSource="{Binding Items}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn
